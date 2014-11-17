@@ -26,7 +26,7 @@ L.polygon([
            ]).addTo(map).bindPopup("I am a polygon.");
 
 
-var popup = L.popup();
+popup = L.popup();
 
 function onMapClick(e) {
 	popup
