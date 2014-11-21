@@ -8,16 +8,17 @@ L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 	id: 'examples.map-i875mjb7'
 }).addTo(map)
 
-
 L.marker([51.5, -0.09])
 	.addTo(map).bindPopup "<b>Hello world!</b><br />I am a popup."
 	.openPopup()
 
 L.circle([51.508, -0.11], 500, {
-	color: 'red',
-	fillColor: '#f03',
-	fillOpacity: 0.5
-}).addTo(map).bindPopup("I am a circle.")
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	})
+	.addTo(map)
+	.bindPopup "I am a circle."
 
 L.polygon([
            [51.509, -0.08],
@@ -26,12 +27,12 @@ L.polygon([
            ]).addTo(map).bindPopup("I am a polygon.")
 
 
-popup = L.popup();
+           popup = L.popup();
 
-onMapClick (e) ->
-	popup
-	.setLatLng(e.latlng)
-	.setContent("You clicked the map at " + e.latlng.toString())
-	.openOn(map)
+onMapClick = (e) ->
+popup
+.setLatLng(e.latlng)
+.setContent("You clicked the map at " + e.latlng.toString())
+.openOn(map)
 
 map.on 'click', onMapClick
