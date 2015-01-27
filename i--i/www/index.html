@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>Valezy</title>
+	<meta charset="UTF-8" />
+</head>
+<body>
+	<iframe id="mainFrame"></iframe>
+
+	<script src="Ressource/js/framework.js"></script>
+	<script type="text/javascript">
+		document.getElementById("mainFrame").src = fw.getRessource("mapAPP");
+		
+		fw.getJsCss( ["indexCSS"], document );
+	</script>
+</body>
+</html>
