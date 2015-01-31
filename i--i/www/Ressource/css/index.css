@@ -6,6 +6,17 @@ body, html, iframe {
 	width: 100%;
 }
 
-iframe {
-	background-color: red;
+#indexPresentationNoMap {
+	padding: 1em;
+}
+#indexPresentationNoMap h1 {
+	margin-top: 0;
+	padding-top: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	text-align: center;
+}
+#indexPresentationNoMap p {
+	margin: 0;
+	padding: 0;
 }

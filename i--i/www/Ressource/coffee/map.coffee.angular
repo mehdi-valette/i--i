@@ -1,3 +1,86 @@
+# --- angular controller
+mapApp = angular.module("mapApp", ["leaflet-directive"])
+
+mapApp.controller("mapController", [
+	"$scope", "leafletData", ($scope, leafletData) ->
+	
+		$scope.test = ->
+			alert("yo");
+	
+		# - variables used later
+		tiles =
+			mapbox:
+				url: "https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png"
+				options:
+					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>'
+					id: 'examples.map-i875mjb7'
+
+		eventLayer = L.markerClusterGroup
+			spiderfyDistanceMultiplier: 2
+			
+		# - icon for the user
+		userIcon =
+			iconUrl: fw.getRessource "userIMG"
+			iconSize: [30, 30]
+			iconAnchor: [15, 15]
+			popupAnchor: [0, 0]
+		
+		$scope.userMarker =
+			icon: userIcon
+			lat: 46.818188
+			lng: 8.227512
+			message: "Vous êtes ici... à peu près"
+						
+		
+		# --- set map properties
+		angular.extend $scope,
+			switzerlandPosition:
+				lat: 46.818188
+				lng: 8.227512
+				zoom: 8
+			mapboxTiles: tiles.mapbox
+			layers:
+				baselayers: {}
+				overlayers:
+					events:
+						name: "events"
+						type: 'markercluster'
+						visible: true
+				markers:
+					user: $scope.userMarker
+						
+		
+		###
+		# --- shows every marker
+		map = leafletData.getMap("map").then (map) ->
+	
+			# - layer with event markers
+			eventLayer = L.markerClusterGroup
+				spiderfyDistanceMultiplier: 2
+			.addTo map
+			
+			# --- called after the geolocalisation was possible
+			# --- set the view and place the user marker on the map
+			showMap = (userPos)->	
+				map.setView userPos, 10
+				
+				userMarker = L.marker userPos, {icon: userIcon}
+				.addTo(map)
+				.bindPopup "<a data-ng-click='test()'>Vous êtes par là... à peu près</a>"
+				.openPopup()
+				
+				$scope.$apply()
+
+			# --- call the geolocalisation system and call "showMap" with a LatLng object
+			navigator.geolocation.getCurrentPosition (pos) ->
+				showMap new L.LatLng pos.coords.latitude, pos.coords.longitude
+		###
+	])
+###
+angular.element(document).ready ->
+
 # --- prepare variables for showing the map
 
 # - choose the tiles' server to use with the map
@@ -76,11 +159,13 @@ filterEvents = (events) ->
 									text += ", "
 								text += date
 								
-					text += "<br />" + "<a href='javascript:goToView' >" + result.titles[0].text + "</a>"
+					text += "<br />" + "<a ui-sref='eventDetail' data-ng-click='test()'>" + result.titles[0].text + "</a>"
 					
 					L.marker [lat, lng], icon: getIcon pictureName
 					.bindPopup text
 					.addTo(eventLayer)
+			alert angular.element(document.querySelector("#map"))
+			angular.element(document.getElementById "map").scope().$apply()
 		)
 
 fw.pubsub.subscribe "filterEvents", filterEvents, true
@@ -88,3 +173,4 @@ fw.pubsub.subscribe "filterEvents", filterEvents, true
 
 # - fires the event "filterEvents" and asks to filter events within a radius
 fw.pubsub.publish "filterEvents", {}
+###

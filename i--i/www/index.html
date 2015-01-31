@@ -3,14 +3,47 @@
 	<title>Valezy</title>
 	<meta charset="UTF-8" />
 </head>
-<body>
-	<iframe id="mainFrame"></iframe>
+<body data-ng-app="index">
 
+	<ion-nav-view name="map"></ion-nav-view>
+    <ion-nav-view name="eventDetail"></ion-nav-view
+	
+	<div id="indexPresentationNoMap">
+		<h1>VALEZY</h1>
+		<p>Ce site web vous permet de trouver les événements qui vous feront passer une belle journée !
+		<p>Si la carte ne se charge pas rapidement, c'est que votre navigateur ne supporte pas le site. Vous pouvez télécharger l'application !
+	</div>
+	
+	<!-- template to show the map iframe -->
+	<script type="text/ng-template" id="map.html">
+		<ion-view view-title="hello">
+			<ion-content data-ng-controller="loadingController">
+				<iframe id="mapFrame" data-ng-src="{{ getUrl('mapAPP') }}" data-ng-click="clicked()"></iframe>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<!-- template to show the event detail iframe -->
+	<script type="text/ng-template" id="eventDetail.html">
+		<ion-view>
+			<ion-content data-ng-controller="loadingController" >
+				<iframe id="eventDetailFrame" data-ng-src="{{ getUrl('eventDetailAPP') }}"></iframe>
+			</ion-content>
+		</ion-view>
+	</script>
+	
 	<script src="Ressource/js/framework.js"></script>
 	<script type="text/javascript">
-		document.getElementById("mainFrame").src = fw.getRessource("mapAPP");
-		
-		fw.getJsCss( ["indexCSS"], document );
+		/*
+		document.getElementById("mapFrame").src = fw.getRessource("mapAPP");
+		document.getElementById("eventDetailFrame").src = fw.getRessource("eventDetailAPP");
+		*/
+		fw.getJsCss( [
+		              "ionicCSS", "indexCSS", "ionicJS",
+		              "angularJS", "angularRouteJS", "angularUIRouterJS",
+		              "angularUIAnimateJS", "angularResourceJS", "angularSanitizeJS",
+		              "ionicAngularJS", "indexJS"
+		              ], document );
 	</script>
 </body>
 </html>

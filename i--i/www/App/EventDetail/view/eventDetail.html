@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<ion-slide-box>
+		<ion-slide on-slide-changed="">
+			<div class="box blue">
+				Box 1
+			</div>
+		</ion-slide>
+		<ion-slide>
+			<div class="box black">
+				Box 2
+			</div>
+		</ion-slide>
+	</ion-slide-box>
+
+	<script type="text/javascript">
+		window.fw = parent.fw;
+		
+		(function(){
+			var names = ["angularJS"];
+			
+			fw.getJsCss(names, document);
+		})();
+		
+	</script>
+</body>
+</html>
