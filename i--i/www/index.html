@@ -1,49 +1,51 @@
-<html>
+<html data-ng-app = "app">
 <head>
 	<title>Valezy</title>
 	<meta charset="UTF-8" />
 </head>
-<body data-ng-app="index">
+<body data-ng-controller = "loadingController">
 
-	<ion-nav-view name="map"></ion-nav-view>
-    <ion-nav-view name="eventDetail"></ion-nav-view
+	<!-- 
+	<ion-nav-view name="index">
+		<div id="indexPresentationNoMap">
+			<h1>VALEZY</h1>
+			<p>Ce site web vous permet de trouver les événements qui vous feront passer une belle journée !
+			<p>Si la carte ne se charge pas rapidement, c'est que votre navigateur ne supporte pas le site. Vous pouvez télécharger l'application !
+		</div>
+	</ion-nav-view>
+	-->
+	<ion-nav-view></ion-nav-view>
 	
-	<div id="indexPresentationNoMap">
-		<h1>VALEZY</h1>
-		<p>Ce site web vous permet de trouver les événements qui vous feront passer une belle journée !
-		<p>Si la carte ne se charge pas rapidement, c'est que votre navigateur ne supporte pas le site. Vous pouvez télécharger l'application !
-	</div>
-	
-	<!-- template to show the map iframe -->
+	<!-- template to show the map application -->
 	<script type="text/ng-template" id="map.html">
 		<ion-view view-title="hello">
 			<ion-content data-ng-controller="loadingController">
-				<iframe id="mapFrame" data-ng-src="{{ getUrl('mapAPP') }}" data-ng-click="clicked()"></iframe>
+				<div data-ng-include="getUrl('mapAPP')"></ng-include>
 			</ion-content>
 		</ion-view>
 	</script>
 	
-	<!-- template to show the event detail iframe -->
+	<!-- template to show the event's details application -->
 	<script type="text/ng-template" id="eventDetail.html">
 		<ion-view>
 			<ion-content data-ng-controller="loadingController" >
-				<iframe id="eventDetailFrame" data-ng-src="{{ getUrl('eventDetailAPP') }}"></iframe>
+				<ng-include src="getUrl('eventDetailAPP')"></ng-include>
 			</ion-content>
 		</ion-view>
 	</script>
 	
 	<script src="Ressource/js/framework.js"></script>
 	<script type="text/javascript">
-		/*
-		document.getElementById("mapFrame").src = fw.getRessource("mapAPP");
-		document.getElementById("eventDetailFrame").src = fw.getRessource("eventDetailAPP");
-		*/
 		fw.getJsCss( [
-		              "ionicCSS", "indexCSS", "ionicJS",
-		              "angularJS", "angularRouteJS", "angularUIRouterJS",
-		              "angularUIAnimateJS", "angularResourceJS", "angularSanitizeJS",
-		              "ionicAngularJS", "indexJS"
-		              ], document );
+		              "ionicCSS", "indexCSS", "ionicJS", "leafletCSS", "markerClusterCSS", "mapCSS"
+		              , "eventDetailCSS"
+		              , "angularJS", "angularRouteJS", "angularUIRouterJS", "ionicAngularJS"
+		              , "angularUIAnimateJS", "angularResourceJS", "angularSanitizeJS"
+		              , "leafletJS", "markerClusterJS"
+		              , "indexJS"
+		              , "mapJS"
+		              , "eventDetailJS"
+		              ], document, function(){} );
 	</script>
 </body>
 </html>

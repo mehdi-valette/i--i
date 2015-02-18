@@ -3,209 +3,6 @@
   var fw, pubsub,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  fw = (function() {
-    function fw() {
-      this.getJsCss = __bind(this.getJsCss, this);
-      this.getRessource = __bind(this.getRessource, this);
-    }
-
-    fw.baseUrl = "/";
-
-    fw.prototype.ressources = {
-      "userIMG": fw.baseUrl + "Ressource/img/user.png",
-      "sport_sureIMG": fw.baseUrl + "Ressource/img/sport_sure.png",
-      "sport_unsureIMG": fw.baseUrl + "Ressource/img/sport_unsure.png",
-      "sport_amateurIMG": fw.baseUrl + "Ressource/img/sport_amateur.png",
-      "concert_sureIMG": fw.baseUrl + "Ressource/img/concert_sure.png",
-      "concert_unsureIMG": fw.baseUrl + "Ressource/img/concert_unsure.png",
-      "concert_amateurIMG": fw.baseUrl + "Ressource/img/concert_amateur.png",
-      "game_sureIMG": fw.baseUrl + "Ressource/img/game_sure.png",
-      "game_unsureIMG": fw.baseUrl + "Ressource/img/game_unsure.png",
-      "game_amateurIMG": fw.baseUrl + "Ressource/img/game_amateur.png",
-      "spectacle_sureIMG": fw.baseUrl + "Ressource/img/spectacle_sure.png",
-      "spectacle_unsureIMG": fw.baseUrl + "Ressource/img/spectacle_unsure.png",
-      "spectacle_amateurIMG": fw.baseUrl + "Ressource/img/spectacle_amateur.png",
-      "other_sureIMG": fw.baseUrl + "Ressource/img/other_sure.png",
-      "other_unsureIMG": fw.baseUrl + "Ressource/img/other_unsure.png",
-      "other_amateurIMG": fw.baseUrl + "Ressource/img/other_amateur.png",
-      "mapAPP": fw.baseUrl + "App/Map/View/map.html",
-      "eventDetailAPP": fw.baseUrl + "App/EventDetail/View/eventDetail.html",
-      "indexCSS": fw.baseUrl + "Ressource/css/index.css",
-      "mapCSS": fw.baseUrl + "Ressource/css/map.css",
-      "leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css",
-      "markerClusterCSS": fw.baseUrl + "Library/markerCluster.css",
-      "ionicCSS": fw.baseUrl + "Library/ionic.css",
-      "angularJS": fw.baseUrl + "Library/angular.js",
-      "angularLeafletDirectiveJS": fw.baseUrl + "Library/angular-leaflet-directive.js",
-      "angularUIAnimateJS": fw.baseUrl + "Library/angular-ui-animate.js",
-      "angularRouteJS": fw.baseUrl + "Library/angular-route.js",
-      "angularUIRouterJS": fw.baseUrl + "Library/angular-ui-router.js",
-      "angularResourceJS": fw.baseUrl + "Library/angular-resource.js",
-      "angularSanitizeJS": fw.baseUrl + "Library/angular-sanitize.js",
-      "indexJS": fw.baseUrl + "Ressource/js/index.js",
-      "ionicJS": fw.baseUrl + "Library/ionic.js",
-      "ionicAngularJS": fw.baseUrl + "Library/ionic-angular.js",
-      "leafletJS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js",
-      "mapJS": fw.baseUrl + "Ressource/js/map.js",
-      "markerClusterJS": fw.baseUrl + "Library/markerCluster.js"
-    };
-
-    fw.prototype.getRessource = function(ressourceName) {
-      return this.ressources[ressourceName];
-    };
-
-    fw.prototype.getJsCss = function(fileNames, doc) {
-      var callback, index;
-      index = -1;
-      callback = (function(_this) {
-        return function() {
-          var again, file, name;
-          index++;
-          name = fileNames[index];
-          again = function() {
-            if (index < (fileNames.length - 1)) {
-              return callback();
-            }
-          };
-          if (name.slice(-3) === "CSS") {
-            file = doc.createElement("link");
-            file.href = _this.getRessource(name);
-            file.rel = "stylesheet";
-            file.type = "text/css";
-            doc.head.appendChild(file);
-            return again();
-          } else if (name.slice(-2) === "JS") {
-            file = doc.createElement("script");
-            file.src = _this.getRessource(name);
-            file.type = "text/javascript";
-            doc.body.appendChild(file);
-            if (file.readyState) {
-              return file.onreadystatechange = function() {
-                if (file.readyState === "loaded" || file.readyState === "complete") {
-                  file.onreadystatechange = null;
-                  return again();
-                }
-              };
-            } else {
-              return file.onload = function() {
-                return again();
-              };
-            }
-          }
-        };
-      })(this);
-      return callback();
-    };
-
-    fw.prototype.requestServer = function(request) {
-      var result;
-      result = [
-        {
-          category: "sport",
-          type: "amateur",
-          location: {
-            type: "Point",
-            coordinates: [8.227512, 46.818188]
-          },
-          titles: [
-            {
-              lang: "fr",
-              text: "compétition de course à pied"
-            }
-          ],
-          timetables: [
-            {
-              "dates": ["28.01.2015", "29.01.2015"],
-              "times": ["08:00", "15:00"]
-            }
-          ]
-        }, {
-          category: "game",
-          type: "sure",
-          location: {
-            type: "Point",
-            coordinates: [8.228, 47.0]
-          },
-          titles: [
-            {
-              lang: "fr",
-              text: "tournoi de poker"
-            }
-          ],
-          timetables: [
-            {
-              "dates": ["30.01.2015", "01.02.2015"],
-              "times": ["08:00", "15:00"]
-            }
-          ]
-        }, {
-          category: "spectacle",
-          type: "unsure",
-          location: {
-            type: "Point",
-            coordinates: [8.0, 46.1]
-          },
-          titles: [
-            {
-              lang: "fr",
-              text: "marionettes"
-            }
-          ],
-          timetables: [
-            {
-              "dates": ["29.01.2015", "01.02.2015"],
-              "times": ["08:00", "15:00"]
-            }
-          ]
-        }, {
-          category: "concert",
-          type: "amateur",
-          location: {
-            type: "Point",
-            coordinates: [8.0, 46.1]
-          },
-          titles: [
-            {
-              lang: "fr",
-              text: "Michael Jackson"
-            }
-          ],
-          timetables: [
-            {
-              "dates": ["29.01.2015", "01.02.2015"],
-              "times": ["08:00", "15:00"]
-            }
-          ]
-        }, {
-          category: "other",
-          type: "unsure",
-          location: {
-            type: "Point",
-            coordinates: [8.0, 46.5]
-          },
-          titles: [
-            {
-              lang: "fr",
-              text: "école de danse \"les danseuses\" - portes ouvertes"
-            }
-          ],
-          timetables: [
-            {
-              "dates": ["29.01.2015", "01.02.2015"],
-              "times": ["08:00", "15:00"]
-            }
-          ]
-        }
-      ];
-      return request.callback(result);
-    };
-
-    return fw;
-
-  })();
-
-  window.fw = new fw();
-
   pubsub = (function() {
     function pubsub() {}
 
@@ -269,6 +66,302 @@
 
   })();
 
-  window.fw.pubsub = new pubsub();
+  fw = (function() {
+    function fw() {
+      this.executeAction = __bind(this.executeAction, this);
+      this.goToPage = __bind(this.goToPage, this);
+      this.getRessource = __bind(this.getRessource, this);
+      this.getDependencies = __bind(this.getDependencies, this);
+    }
+
+    fw.baseUrl = "/";
+
+    fw.prototype.waitingList = {};
+
+    fw.prototype.pubsub = new pubsub();
+
+    fw.prototype.ressources = {
+      "userIMG": fw.baseUrl + "Ressource/img/user.png",
+      "sport_sureIMG": fw.baseUrl + "Ressource/img/sport_sure.png",
+      "sport_unsureIMG": fw.baseUrl + "Ressource/img/sport_unsure.png",
+      "sport_amateurIMG": fw.baseUrl + "Ressource/img/sport_amateur.png",
+      "concert_sureIMG": fw.baseUrl + "Ressource/img/concert_sure.png",
+      "concert_unsureIMG": fw.baseUrl + "Ressource/img/concert_unsure.png",
+      "concert_amateurIMG": fw.baseUrl + "Ressource/img/concert_amateur.png",
+      "game_sureIMG": fw.baseUrl + "Ressource/img/game_sure.png",
+      "game_unsureIMG": fw.baseUrl + "Ressource/img/game_unsure.png",
+      "game_amateurIMG": fw.baseUrl + "Ressource/img/game_amateur.png",
+      "spectacle_sureIMG": fw.baseUrl + "Ressource/img/spectacle_sure.png",
+      "spectacle_unsureIMG": fw.baseUrl + "Ressource/img/spectacle_unsure.png",
+      "spectacle_amateurIMG": fw.baseUrl + "Ressource/img/spectacle_amateur.png",
+      "other_sureIMG": fw.baseUrl + "Ressource/img/other_sure.png",
+      "other_unsureIMG": fw.baseUrl + "Ressource/img/other_unsure.png",
+      "other_amateurIMG": fw.baseUrl + "Ressource/img/other_amateur.png",
+      "mapAPP": fw.baseUrl + "App/Map/View/map.html",
+      "eventDetailAPP": fw.baseUrl + "App/EventDetail/View/eventDetail.html",
+      "indexCSS": fw.baseUrl + "Ressource/css/index.css",
+      "ionicCSS": fw.baseUrl + "Library/ionic.css",
+      "leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css",
+      "mapCSS": fw.baseUrl + "Ressource/css/map.css",
+      "markerClusterCSS": fw.baseUrl + "Library/markerCluster.css",
+      "eventDetailCSS": fw.baseUrl + "Ressource/css/eventDetail.css",
+      "angularJS": fw.baseUrl + "Library/angular.js",
+      "angularLeafletDirectiveJS": fw.baseUrl + "Library/angular-leaflet-directive.js",
+      "angularUIAnimateJS": fw.baseUrl + "Library/angular-ui-animate.js",
+      "angularRouteJS": fw.baseUrl + "Library/angular-route.js",
+      "angularUIRouterJS": fw.baseUrl + "Library/angular-ui-router.js",
+      "angularResourceJS": fw.baseUrl + "Library/angular-resource.js",
+      "angularSanitizeJS": fw.baseUrl + "Library/angular-sanitize.js",
+      "eventDetailJS": fw.baseUrl + "Ressource/js/eventDetail.js",
+      "indexJS": fw.baseUrl + "Ressource/js/index.js",
+      "ionicJS": fw.baseUrl + "Library/ionic.js",
+      "ionicAngularJS": fw.baseUrl + "Library/ionic-angular.js",
+      "leafletJS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js",
+      "mapJS": fw.baseUrl + "Ressource/js/map.js",
+      "markerClusterJS": fw.baseUrl + "Library/markerCluster.js"
+    };
+
+    fw.prototype.dependencies = {
+      "mapAPP": ["mapCSS", "markerClusterCSS", "leafletCSS", "leafletJS", "markerClusterJS", "mapJS"],
+      "eventDetailAPP": ["eventDetailCSS", "eventDetailJS"]
+    };
+
+    fw.prototype.getDependencies = function(url) {
+      var dependency, end, start;
+      start = url.lastIndexOf("/") + 1;
+      if (start === 0) {
+        return this.dependencies[url];
+      } else {
+        end = url.lastIndexOf(".");
+        dependency = url.substring(start, end) + "APP";
+        return this.dependencies[dependency];
+      }
+    };
+
+    fw.prototype.getRessource = function(ressourceName) {
+      return this.ressources[ressourceName];
+    };
+
+    fw.prototype.getJsCss = function(fileNames, doc, callback) {
+      var eachFile, index;
+      index = -1;
+      eachFile = (function(_this) {
+        return function() {
+          var again, alreadyExists, file, link, links, name, _fn, _fn1, _i, _j, _len, _len1;
+          index++;
+          name = fileNames[index];
+          again = function() {
+            if (index < (fileNames.length - 1)) {
+              return eachFile();
+            } else if (callback !== null) {
+              return callback();
+            }
+          };
+          if (name.slice(-3) === "CSS") {
+            alreadyExists = false;
+            links = document.getElementsByTagName("link");
+            _fn = function(link) {
+              if (link.href === _this.getRessource(name)) {
+                return alreadyExists = true;
+              }
+            };
+            for (_i = 0, _len = links.length; _i < _len; _i++) {
+              link = links[_i];
+              _fn(link);
+            }
+            if (alreadyExists) {
+              again();
+            }
+            file = doc.createElement("link");
+            file.href = _this.getRessource(name);
+            file.rel = "stylesheet";
+            file.type = "text/css";
+            doc.head.appendChild(file);
+            return again();
+          } else if (name.slice(-2) === "JS") {
+            alreadyExists = false;
+            links = document.getElementsByTagName("script");
+            _fn1 = function(link) {
+              if (link.src === _this.getRessource(name)) {
+                return alreadyExists = true;
+              }
+            };
+            for (_j = 0, _len1 = links.length; _j < _len1; _j++) {
+              link = links[_j];
+              _fn1(link);
+            }
+            if (alreadyExists) {
+              again();
+            }
+            file = doc.createElement("script");
+            file.src = _this.getRessource(name);
+            file.type = "text/javascript";
+            doc.body.appendChild(file);
+            if (file.readyState) {
+              return file.onreadystatechange = function() {
+                if (file.readyState === "loaded" || file.readyState === "complete") {
+                  file.onreadystatechange = null;
+                  return again();
+                }
+              };
+            } else {
+              return file.onload = function() {
+                return again();
+              };
+            }
+          }
+        };
+      })(this);
+      return eachFile();
+    };
+
+    fw.prototype.requestServer = function(request) {
+      var result;
+      result = [
+        {
+          category: "sport",
+          type: "amateur",
+          location: {
+            type: "Point",
+            coordinates: [8.227512, 46.818188]
+          },
+          titles: [
+            {
+              lang: "fr",
+              text: "compétition de course à pied"
+            }
+          ],
+          timetables: [
+            {
+              "dates": ["28.01.2015", "29.01.2015"],
+              "times": ["08:00", "15:00"]
+            }
+          ]
+        }, {
+          category: "game",
+          type: "sure",
+          location: {
+            type: "Point",
+            coordinates: [8.1, 46.83]
+          },
+          titles: [
+            {
+              lang: "fr",
+              text: "tournoi de poker"
+            }
+          ],
+          timetables: [
+            {
+              "dates": ["30.01.2015", "01.02.2015"],
+              "times": ["08:00", "15:00"]
+            }
+          ]
+        }, {
+          category: "spectacle",
+          type: "unsure",
+          location: {
+            type: "Point",
+            coordinates: [8.0, 46.1]
+          },
+          titles: [
+            {
+              lang: "fr",
+              text: "marionettes"
+            }
+          ],
+          timetables: [
+            {
+              "dates": ["29.01.2015", "01.02.2015"],
+              "times": ["08:00", "15:00"]
+            }
+          ]
+        }, {
+          category: "concert",
+          type: "amateur",
+          location: {
+            type: "Point",
+            coordinates: [8.22, 46.1]
+          },
+          titles: [
+            {
+              lang: "fr",
+              text: "Michael Jackson"
+            }
+          ],
+          timetables: [
+            {
+              "dates": ["29.01.2015", "01.02.2015"],
+              "times": ["08:00", "15:00"]
+            }
+          ]
+        }, {
+          category: "other",
+          type: "unsure",
+          location: {
+            type: "Point",
+            coordinates: [8.0, 46.86]
+          },
+          titles: [
+            {
+              lang: "fr",
+              text: "école de danse \"les danseuses\" - portes ouvertes"
+            }
+          ],
+          timetables: [
+            {
+              "dates": ["29.01.2015", "01.02.2015"],
+              "times": ["08:00", "15:00"]
+            }
+          ]
+        }
+      ];
+      return request.callback(result);
+    };
+
+    fw.prototype.goToPage = function(uri, params) {
+      var $injector, $location, $timeout;
+      $injector = angular.element(document.querySelector("body")).injector();
+      $location = $injector.get("$location");
+      $timeout = $injector.get("$timeout");
+      return $timeout(function() {
+        var wl;
+        $location.url(uri);
+        switch (uri) {
+          case "/eventDetail":
+            wl = window.fw.waitingList;
+            try {
+              return wl[uri].push(function() {
+                return window.fw.pubsub.publish("eventDetail", params);
+              });
+            } catch (_error) {
+              wl[uri] = [];
+              return wl[uri].push(function() {
+                return window.fw.pubsub.publish("eventDetail", params);
+              });
+            }
+        }
+      }, 1);
+    };
+
+    fw.prototype.executeAction = function(page) {
+      var p, wl, _i, _len, _ref;
+      wl = window.fw.waitingList;
+      if (!wl[page] || wl[page].length === 0) {
+        return null;
+      } else {
+        _ref = wl[page];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          p = _ref[_i];
+          p();
+        }
+        return delete wl[page];
+      }
+    };
+
+    return fw;
+
+  })();
+
+  window.fw = new fw();
 
 }).call(this);

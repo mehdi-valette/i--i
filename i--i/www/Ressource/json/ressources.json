@@ -1,0 +1,47 @@
+# --- associative array of ressource's name - ressource's directory
+fw.prototype.ressources:
+	# - images
+	"userIMG": @baseUrl + "Ressource/img/user.png"
+	"sport_sureIMG": @baseUrl + "Ressource/img/sport_sure.png"
+	"sport_unsureIMG": @baseUrl + "Ressource/img/sport_unsure.png"
+	"sport_amateurIMG": @baseUrl + "Ressource/img/sport_amateur.png"
+	"concert_sureIMG": @baseUrl + "Ressource/img/concert_sure.png"
+	"concert_unsureIMG": @baseUrl + "Ressource/img/concert_unsure.png"
+	"concert_amateurIMG": @baseUrl + "Ressource/img/concert_amateur.png"
+	"game_sureIMG": @baseUrl + "Ressource/img/game_sure.png"
+	"game_unsureIMG": @baseUrl + "Ressource/img/game_unsure.png"
+	"game_amateurIMG": @baseUrl + "Ressource/img/game_amateur.png"
+	"spectacle_sureIMG": @baseUrl + "Ressource/img/spectacle_sure.png"
+	"spectacle_unsureIMG": @baseUrl + "Ressource/img/spectacle_unsure.png"
+	"spectacle_amateurIMG": @baseUrl + "Ressource/img/spectacle_amateur.png"
+	"other_sureIMG": @baseUrl + "Ressource/img/other_sure.png"
+	"other_unsureIMG": @baseUrl + "Ressource/img/other_unsure.png"
+	"other_amateurIMG": @baseUrl + "Ressource/img/other_amateur.png"
+	
+	# - apps
+	"mapAPP": @baseUrl + "App/Map/View/map.html"
+	"eventDetailAPP": @baseUrl + "App/EventDetail/View/eventDetail.html"
+	
+	# - CSS
+	"indexCSS": @baseUrl + "Ressource/css/index.css"
+	"ionicCSS": @baseUrl + "Library/ionic.css"
+	"leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"
+	"mapCSS": @baseUrl + "Ressource/css/map.css"
+	"markerClusterCSS": @baseUrl + "Library/markerCluster.css"
+	"eventDetailCSS": @baseUrl + "Ressource/css/eventDetail.css"
+	
+	# - JS
+	"angularJS": @baseUrl + "Library/angular.js"
+	"angularLeafletDirectiveJS": @baseUrl + "Library/angular-leaflet-directive.js"
+	"angularUIAnimateJS": @baseUrl + "Library/angular-ui-animate.js"
+	"angularRouteJS": @baseUrl + "Library/angular-route.js"
+	"angularUIRouterJS": @baseUrl + "Library/angular-ui-router.js"
+	"angularResourceJS": @baseUrl + "Library/angular-resource.js"
+	"angularSanitizeJS": @baseUrl + "Library/angular-sanitize.js"
+	"eventDetailJS": @baseUrl + "Ressource/js/eventDetail.js"
+	"indexJS": @baseUrl + "Ressource/js/index.js"
+	"ionicJS": @baseUrl + "Library/ionic.js"
+	"ionicAngularJS": @baseUrl + "Library/ionic-angular.js"
+	"leafletJS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"
+	"mapJS": @baseUrl + "Ressource/js/map.js",
+	"markerClusterJS": @baseUrl + "Library/markerCluster.js"

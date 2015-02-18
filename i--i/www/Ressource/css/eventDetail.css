@@ -1,0 +1,59 @@
+#eventDetailApp{
+	height: 100%;
+}
+
+.tabs .tab-item .icon.valezy-icon-close-on {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/close-on.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-close-off {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/close-off.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-information-on {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/information-on.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-information-off {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/information-off.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-description-on {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/description-on.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-description-off {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/description-off.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-photo-on {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/photo-on.png');
+}
+
+.tabs .tab-item .icon.valezy-icon-photo-off {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  height: 44px;
+  background-image: url('css-images/eventDetail/photo-off.png');
+}

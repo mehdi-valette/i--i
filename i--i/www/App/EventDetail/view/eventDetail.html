@@ -1,32 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-	<ion-slide-box>
-		<ion-slide on-slide-changed="">
-			<div class="box blue">
-				Box 1
-			</div>
-		</ion-slide>
-		<ion-slide>
-			<div class="box black">
-				Box 2
-			</div>
-		</ion-slide>
-	</ion-slide-box>
 
-	<script type="text/javascript">
-		window.fw = parent.fw;
+<div id="eventDetailApp" data-ng-controller="eventDetailController" >
+<ion-tabs class="tabs-top tabs-background-positive tabs-color-light">
+
+	<!-- close event details -->
+	<ion-tab icon-on="valezy-icon-close-on" icon-off="valezy-icon-close-off" data-ng-click="close()">
+	
+		<ion-view class="box">
 		
-		(function(){
-			var names = ["angularJS"];
+			<ion-header-bar class="bar-dark">
+				<h1 class="title">Close</h1>
+			</ion-header-bar>
 			
-			fw.getJsCss(names, document);
-		})();
+			<ion-content>
+			</ion-content>
+			
+		</ion-view>
+	</ion-tab>
+
+	<!-- description's tab -->
+	<ion-tab icon-on="valezy-icon-description-on" icon-off="valezy-icon-description-off">
+	
+		<ion-view class="box">
 		
-	</script>
-</body>
-</html>
+			<ion-header-bar class="bar-dark">
+				<h1 class="title">Description</h1>
+			</ion-header-bar>
+			
+			<ion-content>
+			<span data-ng-bind="event.titles[0].text"></span>
+			</ion-content>
+			
+		</ion-view>
+	</ion-tab>
+	
+	<!-- informations' tab -->
+	<ion-tab  icon-on="valezy-icon-information-on" icon-off="valezy-icon-information-off">
+		<ion-view>
+		
+			<ion-header-bar class="bar-dark">
+				<h1 class="title">Informations</h1>
+			</ion-header-bar>
+			
+			<ion-content>
+				informations
+			</ion-content>
+			
+		</ion-view>
+	</ion-tab>
+	
+	<!-- photos' tab -->
+	<ion-tab  icon-on="valezy-icon-photo-on" icon-off="valezy-icon-photo-off">
+		<ion-view>
+		
+			<ion-header-bar class="bar-dark">
+				<h1 class="title">Photos</h1>
+			</ion-header-bar>
+			
+			<ion-content>
+				pictures
+			</ion-content>
+			
+		</ion-view>
+	</ion-tab>
+	
+</ion-tabs>
+</div>

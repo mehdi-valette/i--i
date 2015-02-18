@@ -2,6 +2,10 @@
 class fw
 	@baseUrl: "/"
 		
+	waitingList: {}
+		
+	pubsub: new pubsub()
+	
 	# --- associative array of ressource's name - ressource's directory
 	ressources:
 		# - images
@@ -28,10 +32,11 @@ class fw
 		
 		# - CSS
 		"indexCSS": @baseUrl + "Ressource/css/index.css"
-		"mapCSS": @baseUrl + "Ressource/css/map.css"
-		"leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"
-		"markerClusterCSS": @baseUrl + "Library/markerCluster.css"
 		"ionicCSS": @baseUrl + "Library/ionic.css"
+		"leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"
+		"mapCSS": @baseUrl + "Ressource/css/map.css"
+		"markerClusterCSS": @baseUrl + "Library/markerCluster.css"
+		"eventDetailCSS": @baseUrl + "Ressource/css/eventDetail.css"
 		
 		# - JS
 		"angularJS": @baseUrl + "Library/angular.js"
@@ -41,34 +46,63 @@ class fw
 		"angularUIRouterJS": @baseUrl + "Library/angular-ui-router.js"
 		"angularResourceJS": @baseUrl + "Library/angular-resource.js"
 		"angularSanitizeJS": @baseUrl + "Library/angular-sanitize.js"
+		"eventDetailJS": @baseUrl + "Ressource/js/eventDetail.js"
 		"indexJS": @baseUrl + "Ressource/js/index.js"
 		"ionicJS": @baseUrl + "Library/ionic.js"
 		"ionicAngularJS": @baseUrl + "Library/ionic-angular.js"
 		"leafletJS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"
 		"mapJS": @baseUrl + "Ressource/js/map.js",
 		"markerClusterJS": @baseUrl + "Library/markerCluster.js"
+		
+	dependencies:
+		"mapAPP": ["mapCSS", "markerClusterCSS", "leafletCSS", "leafletJS", "markerClusterJS", "mapJS"]
+		"eventDetailAPP": ["eventDetailCSS", "eventDetailJS"]
+	
+	getDependencies: (url) =>
+		start = url.lastIndexOf("/") + 1
+		if start == 0
+			@dependencies[url]
+		else
+			end = url.lastIndexOf "."
+			dependency = url.substring(start, end) + "APP"
+			@dependencies[dependency]
 
 	# --- return a ressource's directory by its name
 	getRessource: (ressourceName) =>
 		@ressources[ressourceName]
 		
 	# --- loads dynamically css and js files (filenames) into the document (doc)
-	getJsCss: (fileNames, doc) =>
+	getJsCss: (fileNames, doc, callback) ->
 		# --- initial index is -1, so it will be at 0 at the first call of index++
 		index = -1
 		
 		# --- method called for each file
-		callback = =>
+		eachFile = =>
 			index++
 			name = fileNames[index]
 
 			# --- method called after a file loaded so we can load the next one (if there's one)
 			again = =>
 				if index < (fileNames.length - 1)
+					eachFile()
+				else if callback != null
 					callback()
 			
 			# --- create the appropriate tag at the appropriate place for each file type
 			if name.slice(-3) is "CSS"
+			
+				# - if the file already exists, we just load the next one
+				alreadyExists = false
+				links = document.getElementsByTagName("link");
+				for link in links
+					do (link) =>
+						if link.href == @getRessource name
+							alreadyExists = true
+					
+				if alreadyExists
+					again()
+				
+				# - adds a link element and loads the next one
 				file = doc.createElement "link"
 				file.href = @getRessource name
 				file.rel = "stylesheet"
@@ -77,7 +111,21 @@ class fw
 				doc.head.appendChild file
 				again();
 				
+			# - .js file
 			else if name.slice(-2) is "JS"
+			
+				# - if the file already exists, we just load the next one
+				alreadyExists = false
+				links = document.getElementsByTagName("script");
+				for link in links
+					do (link) =>
+						if link.src == @getRessource name
+							alreadyExists = true
+					
+				if alreadyExists
+					again()
+				
+				# - adds
 				file = doc.createElement "script"
 				file.src = @getRessource name
 				file.type = "text/javascript"
@@ -95,7 +143,7 @@ class fw
 			    	file.onload = ->
 			        	again()
 			
-		callback()
+		eachFile()
 	
 	# --- make request to the server
 	requestServer: (request) ->
@@ -121,7 +169,7 @@ class fw
 			type: "sure"
 			location:
 				type: "Point",
-				coordinates: [ 8.228, 47.0 ]
+				coordinates: [ 8.1, 46.83 ]
 			titles: [{
 				lang: "fr",
 				text: "tournoi de poker"
@@ -153,7 +201,7 @@ class fw
 			type: "amateur"
 			location:
 				type: "Point",
-				coordinates: [ 8.0, 46.1 ]
+				coordinates: [ 8.22, 46.1 ]
 			titles: [{
 				lang: "fr",
 				text: "Michael Jackson"
@@ -169,7 +217,7 @@ class fw
 			type: "unsure"
 			location:
 				type: "Point",
-				coordinates: [ 8.0, 46.5 ]
+				coordinates: [ 8.0, 46.86 ]
 			titles: [{
 				lang: "fr",
 				text: "école de danse \"les danseuses\" - portes ouvertes"
@@ -181,5 +229,33 @@ class fw
 			}
 		]
 		request.callback(result)
+	
+	# - called by apps to change page
+	goToPage: (uri, params) =>
+		$injector = angular.element(document.querySelector "body").injector()
+		$location = $injector.get "$location"
+		$timeout = $injector.get "$timeout"
+		$timeout ->
+			$location.url uri
+			switch uri
+				when "/eventDetail"
+					wl = window.fw.waitingList
+					try
+						wl[uri].push ->
+							window.fw.pubsub.publish "eventDetail", params
+					catch
+						wl[uri] = []
+						wl[uri].push ->
+							window.fw.pubsub.publish "eventDetail", params
+		, 1
+	
+	executeAction: (page) =>
+		wl = window.fw.waitingList
+		if !wl[page] or wl[page].length == 0
+			null
+		else
+			p() for p in wl[page]
+			delete wl[page]
+		
 
 window.fw = new fw()

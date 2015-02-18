@@ -13,9 +13,8 @@ class pubsub
 		
 		if @topics[topic]
 			myHandle = ++@handle
-			@topics[topic].push(
+			@topics[topic].push
 					"callback": callback, "handle": myHandle
-				)
 			myHandle
 		else
 			false
@@ -37,5 +36,3 @@ class pubsub
 			true
 		else
 			false
-			
-window.fw.pubsub = new pubsub()

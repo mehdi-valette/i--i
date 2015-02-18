@@ -1,13 +1,8 @@
 # --- angular controller
-mapApp = angular.module("mapApp", ["leaflet-directive"])
-
-mapApp.controller("mapController", [
+angularApp.controller("mapController", [
 	"$scope", "leafletData", ($scope, leafletData) ->
-	
-		$scope.test = ->
-			alert("yo");
-	
-		# - variables used later
+
+		# - tiles' server used for the map
 		tiles =
 			mapbox:
 				url: "https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png"
@@ -17,160 +12,98 @@ mapApp.controller("mapController", [
 					'Imagery © <a href="http://mapbox.com">Mapbox</a>'
 					id: 'examples.map-i875mjb7'
 
-		eventLayer = L.markerClusterGroup
+		# - the event layers on which every events will be added
+		$scope.eventLayer = L.markerClusterGroup
 			spiderfyDistanceMultiplier: 2
 			
-		# - icon for the user
-		userIcon =
-			iconUrl: fw.getRessource "userIMG"
-			iconSize: [30, 30]
-			iconAnchor: [15, 15]
+		# --- events icon's function
+		getIcon = (iconName) ->
+			iconUrl: fw.getRessource iconName + "IMG"
+			iconSize: [46, 46]
+			iconAnchor: [23, 23]
 			popupAnchor: [0, 0]
+			
+		# --- events marker's function
+		getMarker = (iconName, latitude, longitude, text) ->
+			icon: getIcon iconName
+			lat: latitude
+			lng: longitude
+			layer: 'events'
+			message: text
+			
+		# - array of events' markers
+		$scope.eventMarkers = []
 		
-		$scope.userMarker =
-			icon: userIcon
+		# - location and message of the user marker
+		userMarker =
+			icon: 
+				iconUrl:  fw.getRessource "userIMG"
+				iconSize: [0, 0 ]
 			lat: 46.818188
 			lng: 8.227512
 			message: "Vous êtes ici... à peu près"
-						
+			focus: true
+				
+		# - initial position
+		$scope.centerPosition = 
+			lat: 46.818188
+			lng: 8.227512
+			zoom: 8
 		
 		# --- set map properties
 		angular.extend $scope,
-			switzerlandPosition:
-				lat: 46.818188
-				lng: 8.227512
-				zoom: 8
 			mapboxTiles: tiles.mapbox
 			layers:
 				baselayers: {}
-				overlayers:
+				overlays:
 					events:
 						name: "events"
 						type: 'markercluster'
 						visible: true
-				markers:
-					user: $scope.userMarker
-						
-		
-		###
-		# --- shows every marker
-		map = leafletData.getMap("map").then (map) ->
-	
-			# - layer with event markers
-			eventLayer = L.markerClusterGroup
-				spiderfyDistanceMultiplier: 2
-			.addTo map
+						spiderfyDistanceMultiplier: 2
+					
+		# --- call the geolocalisation system and update the map's center
+		navigator.geolocation.getCurrentPosition (pos) ->
 			
-			# --- called after the geolocalisation was possible
-			# --- set the view and place the user marker on the map
-			showMap = (userPos)->	
-				map.setView userPos, 10
-				
-				userMarker = L.marker userPos, {icon: userIcon}
-				.addTo(map)
-				.bindPopup "<a data-ng-click='test()'>Vous êtes par là... à peu près</a>"
-				.openPopup()
-				
-				$scope.$apply()
+			# - update the map center's position and zoom
+			$scope.centerPosition.lat = pos.coords.latitude
+			$scope.centerPosition.lng = pos.coords.longitude
+			$scope.centerPosition.zoom = 10
+			
+			# - update the user's position
+			userMarker.lat = pos.coords.latitude
+			userMarker.lng = pos.coords.longitude
+			$scope.eventMarkers.push userMarker
+		
+		# --- subscribes to the channel "filterEvents" and listen with the function filterEvents
+		filterEvents = (events) ->
+			fw.requestServer(
+				app: "mapApp"
+				controller: "filterEvents"
+				callback: (results) ->
+					for result in results
+						do (result) ->
+							lng = result.location.coordinates[0]
+							lat = result.location.coordinates[1]
+							pictureName = result.category + "_" + result.type
+							
+							text = ""
+							
+							for range, i in result.timetables
+								do (range, i) ->
+									for date, j in range.dates
+										if j > 0
+											text += ", "
+										text += date
+										
+							text += "<br />" + "<a ui-sref='eventDetail'>" + result.titles[0].text + "</a>"
+							
+							$scope.eventMarkers.push getMarker(pictureName, lat, lng, text)
+				)
 
-			# --- call the geolocalisation system and call "showMap" with a LatLng object
-			navigator.geolocation.getCurrentPosition (pos) ->
-				showMap new L.LatLng pos.coords.latitude, pos.coords.longitude
-		###
+		fw.pubsub.subscribe "filterEvents", filterEvents, true
+
+
+		# - fires the event "filterEvents" and asks to filter events within a radius
+		fw.pubsub.publish "filterEvents", {}
 	])
-###
-angular.element(document).ready ->
-
-# --- prepare variables for showing the map
-
-# - choose the tiles' server to use with the map
-tiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-	'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-	'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-	id: 'examples.map-i875mjb7'
-})
-
-# - create the map
-map = L.map 'map',
-		center: [46.818188, 8.227512]
-		zoom: 8
-		layers: [tiles]
-
-# - create the events layer
-eventLayer = L.markerClusterGroup
-		spiderfyDistanceMultiplier: 2
-.addTo(map)
-
-# - icon for the user
-userIcon = L.icon(
-	iconUrl: fw.getRessource "userIMG"
-	iconSize: [30, 30]
-	iconAnchor: [15, 15]
-	popupAnchor: [0, 0]
-);
-
-# --- events icon's template and function to build it
-eventIcon = L.Icon.extend(
-		options:
-			iconSize: [46, 46]
-			iconAnchor: [23, 23]
-			popupAnchor: [0, 0]
-	);
-
-getIcon = (iconName) ->
-	new eventIcon(
-		iconUrl: fw.getRessource iconName + "IMG"
-	)
-
-# --- called after the geolocalisation was possible
-# --- set the view and place the user marker on the map
-showMap = (userPos)->	
-	map.setView userPos, 10
-	
-	userMarker = L.marker userPos, {icon: userIcon}
-	.addTo(map)
-	.bindPopup "Vous êtes par là... à peu près"
-	.openPopup()
-
-# --- call the geolocalisation system and call "showMap" with a LatLng object
-navigator.geolocation.getCurrentPosition (pos) ->
-	showMap new L.LatLng pos.coords.latitude, pos.coords.longitude
-	
-# --- subscribes to the channel "filterEvents" and listen with the function filterEvents
-filterEvents = (events) ->
-	fw.requestServer(
-		app: "map"
-		controller: "filterEvents"
-		callback: (results) ->
-			for result in results
-				do (result) ->
-					lng = result.location.coordinates[0]
-					lat = result.location.coordinates[1]
-					pictureName = result.category + "_" + result.type
-					
-					text = ""
-					
-					for range, i in result.timetables
-						do (range, i) ->
-							for date, j in range.dates
-								if j > 0
-									text += ", "
-								text += date
-								
-					text += "<br />" + "<a ui-sref='eventDetail' data-ng-click='test()'>" + result.titles[0].text + "</a>"
-					
-					L.marker [lat, lng], icon: getIcon pictureName
-					.bindPopup text
-					.addTo(eventLayer)
-			alert angular.element(document.querySelector("#map"))
-			angular.element(document.getElementById "map").scope().$apply()
-		)
-
-fw.pubsub.subscribe "filterEvents", filterEvents, true
-
-
-# - fires the event "filterEvents" and asks to filter events within a radius
-fw.pubsub.publish "filterEvents", {}
-###
