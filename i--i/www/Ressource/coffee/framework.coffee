@@ -3,6 +3,7 @@ class fw
 	@baseUrl: "/"
 		
 	waitingList: {}
+	loadedApp: {}
 		
 	pubsub: new pubsub()
 	
@@ -230,16 +231,31 @@ class fw
 		]
 		request.callback(result)
 	
-	# - called by apps to change page
+	# --- called by apps to change page
 	goToPage: (uri, params) =>
+		# - get the $timeout object
 		$injector = angular.element(document.querySelector "body").injector()
 		$location = $injector.get "$location"
 		$timeout = $injector.get "$timeout"
+		
 		$timeout ->
+			# - change the page
 			$location.url uri
+			
+			# - depending on the uri, execute some functions
 			switch uri
 				when "/eventDetail"
 					wl = window.fw.waitingList
+					la = window.fw.loadedApp
+					
+					###
+					# - if the page is already loaded, just publish the parameters
+					if la[uri] is true
+						window.fw.pubsub.publish "eventDetail", params
+						return
+					###
+					
+					# - if the page is not loaded, add the publication to the waiting list
 					try
 						wl[uri].push ->
 							window.fw.pubsub.publish "eventDetail", params
@@ -249,13 +265,18 @@ class fw
 							window.fw.pubsub.publish "eventDetail", params
 		, 1
 	
+	# --- called when an event was waiting for a page to download
 	executeAction: (page) =>
+		
+		# - indicates the page has been loaded					
+		window.fw.loadedApp[page] = true
+		
+		# - execute the action linked to the page
 		wl = window.fw.waitingList
 		if !wl[page] or wl[page].length == 0
 			null
 		else
 			p() for p in wl[page]
 			delete wl[page]
-		
 
 window.fw = new fw()

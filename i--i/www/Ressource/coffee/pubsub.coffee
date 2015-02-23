@@ -36,3 +36,11 @@ class pubsub
 			true
 		else
 			false
+			
+	# --- check if a topic already exists
+	topicExists: (topic) ->
+		if @topics[topic]
+			true
+		else
+			false
+			

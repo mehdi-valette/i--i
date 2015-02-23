@@ -1,5 +1,5 @@
 
-<div id="eventDetailApp" data-ng-controller="eventDetailController" >
+<div id="eventDetailApp" >
 <ion-tabs class="tabs-top tabs-background-positive tabs-color-light">
 
 	<!-- close event details -->
@@ -27,7 +27,8 @@
 			</ion-header-bar>
 			
 			<ion-content>
-			<span data-ng-bind="event.titles[0].text"></span>
+				<span data-ng-bind="event"></span>
+				hello
 			</ion-content>
 			
 		</ion-view>

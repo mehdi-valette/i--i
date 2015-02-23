@@ -62,6 +62,14 @@
       }
     };
 
+    pubsub.prototype.topicExists = function(topic) {
+      if (this.topics[topic]) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
     return pubsub;
 
   })();
@@ -77,6 +85,8 @@
     fw.baseUrl = "/";
 
     fw.prototype.waitingList = {};
+
+    fw.prototype.loadedApp = {};
 
     fw.prototype.pubsub = new pubsub();
 
@@ -324,11 +334,19 @@
       $location = $injector.get("$location");
       $timeout = $injector.get("$timeout");
       return $timeout(function() {
-        var wl;
+        var la, wl;
         $location.url(uri);
         switch (uri) {
           case "/eventDetail":
             wl = window.fw.waitingList;
+            la = window.fw.loadedApp;
+
+            /*
+            					 * - if the page is already loaded, just publish the parameters
+            					if la[uri] is true
+            						window.fw.pubsub.publish "eventDetail", params
+            						return
+             */
             try {
               return wl[uri].push(function() {
                 return window.fw.pubsub.publish("eventDetail", params);
@@ -345,6 +363,7 @@
 
     fw.prototype.executeAction = function(page) {
       var p, wl, _i, _len, _ref;
+      window.fw.loadedApp[page] = true;
       wl = window.fw.waitingList;
       if (!wl[page] || wl[page].length === 0) {
         return null;

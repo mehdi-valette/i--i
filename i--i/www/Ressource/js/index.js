@@ -11,7 +11,6 @@
   resolveController = (app) ->
   	alert app + " " + $q
   	defered = $q.defer()
-  	
   
   	fw.getJsCss fw.getDependencies(app), document
   	, ->
@@ -50,7 +49,8 @@
         templateUrl: "map.html"
       }).state("eventDetail", {
         url: "/eventDetail",
-        templateUrl: "eventDetail.html"
+        templateUrl: "eventDetail.html",
+        controller: "eventDetailController"
       });
       angularApp._controller = angularApp.controller;
       return angularApp.controller = function(name, constructor) {

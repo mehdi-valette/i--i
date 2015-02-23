@@ -6,7 +6,6 @@ window.angularApp = angularApp
 resolveController = (app) ->
 	alert app + " " + $q
 	defered = $q.defer()
-	
 
 	fw.getJsCss fw.getDependencies(app), document
 	, ->
@@ -47,6 +46,7 @@ angularApp.config [ "$stateProvider", "$urlRouterProvider", "$controllerProvider
 	.state "eventDetail",
 		url: "/eventDetail"
 		templateUrl: "eventDetail.html"
+		controller: "eventDetailController"
 	
 	angularApp._controller = angularApp.controller
 	
