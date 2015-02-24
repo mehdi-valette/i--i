@@ -2,6 +2,65 @@
 	height: 100%;
 }
 
+#eventDetailApp .content {
+	padding: 1em;
+	background-color: #eeeeee;
+	height: 100%;
+	width: 30em;
+	margin: auto;
+}
+
+#eventDetailApp .title {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+#eventDetailApp .dates {
+	color: blue;
+	font-weight: bold;
+}
+
+#eventDetailApp .content-block {
+	background-color: #fafafa;
+	border: 2px solid blue;
+	border-radius: 5px;
+	
+	float: left;
+	
+	margin: 0 1em 3em 0;
+	padding: .5em;
+}
+
+#eventDetailApp .content-block .content-block-title {
+	background-color: white;
+	border: 2px solid blue;
+	border-radius: 5px;
+	
+	display: inline-block;
+	font-weight: bold;
+	margin: -1.25em 0 .5em 0;
+	padding: 0 1em 0 1em;
+}
+
+#eventDetailApp .content-block .content-block-content .date {
+	font-weight: bold;
+	margin-right: 1em;
+}
+
+#eventDetailApp .image-container {
+	margin-bottom: 1em;
+	text-align: center;
+}
+
+#eventDetailApp .image-container img {
+	border: 2px outset blue;
+	border-radius: 5px;
+}
+
+#eventDetailApp .image-container img:active {
+	border: 2px inset lightBlue;
+}
+
 .tabs .tab-item .icon.valezy-icon-close-on {
   background-repeat: no-repeat;
   background-position: 50%;

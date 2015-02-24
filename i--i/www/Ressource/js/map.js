@@ -59,7 +59,7 @@
             for (index = _i = 0, _len = events.length; _i < _len; index = ++_i) {
               event = events[index];
               _results.push((function(event, index) {
-                var lat, lng, pictureName, popupContent, popupLink, range, textDate, _fn, _j, _len1, _ref;
+                var i, lat, lng, pictureName, popupContent, popupLink, range, textDate, _fn, _j, _len1, _ref;
                 lng = event.location.coordinates[0];
                 lat = event.location.coordinates[1];
                 pictureName = event.category + "_" + event.type;
@@ -67,6 +67,9 @@
                 _ref = event.timetables;
                 _fn = function(range) {
                   var date, j, _k, _len2, _ref1, _results1;
+                  if (i > 0) {
+                    textDate += ", ";
+                  }
                   _ref1 = range.dates;
                   _results1 = [];
                   for (j = _k = 0, _len2 = _ref1.length; _k < _len2; j = ++_k) {
@@ -78,8 +81,8 @@
                   }
                   return _results1;
                 };
-                for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-                  range = _ref[_j];
+                for (i = _j = 0, _len1 = _ref.length; _j < _len1; i = ++_j) {
+                  range = _ref[i];
                   _fn(range);
                 }
                 popupLink = document.createElement("a");

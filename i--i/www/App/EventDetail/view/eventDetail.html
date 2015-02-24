@@ -27,9 +27,31 @@
 			</ion-header-bar>
 			
 			<ion-content>
-				<h1 class="title" data-ng-bind="event.title"></h1>
-				<p data-ng-bind="event.description">
-				</p>
+				<div class="content">
+				
+					<!-- Main loop on dates, look for each timetable -->
+					<span class="dates" data-ng-repeat="timetable in event.timetables">
+						
+						<!-- Inner loop on dates, look every date in each timetable -->
+						<span data-ng-repeat="dates in timetable.dates">
+						
+							<!-- show the date -->
+							<span data-ng-bind="dates"></span>
+							
+							<!-- add a "-" if not the last loop -->
+							<span data-ng-if="$last == false"> - </span>
+						</span>
+					
+						<!-- add a "-" if not the last loop -->
+						<span data-ng-if="$last == false"> - </span>
+					</span>
+					
+					<!-- title and description -->
+					<h1 class="title" data-ng-bind="event.title"></h1>
+					
+					<p data-ng-bind="event.description">
+					</p>
+				</div>
 			</ion-content>
 			
 		</ion-view>
@@ -44,7 +66,62 @@
 			</ion-header-bar>
 			
 			<ion-content>
-				informations
+				<div class="content">
+				
+					<!-- address -->
+					<div class="content-block">
+					
+						<!-- address' title -->
+						<div class="content-block-title">Adresse</div>
+						
+						<!-- address' content -->
+						<div class="content-block-content">
+						
+							<!-- street -->
+							<div>
+								<span data-ng-bind="event.address.street"></span>
+								<span data-ng-bind="event.address.streetNbr"></span>
+							</div>
+						
+							<!-- country, npa, town -->
+							<div>
+								<span data-ng-bind="event.address.country"></span>
+								-
+								<span data-ng-bind="event.address.npa"></span>
+								<span data-ng-bind="event.address.town"></span>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!-- dates -->
+					<div class="content-block">
+					
+						<!-- dates' title -->
+						<div class="content-block-title">Dates et horaires</div>
+						
+						<!-- dates' content -->
+						<div class="content-block-content">
+							
+							<!-- loop all timetables -->
+							<div data-ng-repeat="timetable in event.timetables">
+							
+								<!-- loop all dates in a timetable -->
+								<div data-ng-repeat="date in timetable.dates">
+								
+									<!-- show the date -->
+									<span data-ng-bind="date" class="date"></span>
+									
+									<!-- show all times in the timetable -->
+									<span data-ng-repeat="time in timetable.times">
+										<span data-ng-bind="time"></span>
+										<span data-ng-if="$last == false"> - </span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</ion-content>
 			
 		</ion-view>
@@ -59,7 +136,12 @@
 			</ion-header-bar>
 			
 			<ion-content>
-				pictures
+				<div class="content">
+					<div class="image-container" data-ng-repeat="image in event.images" >
+						<img data-ng-style="imageStyle(image)" data-ng-src="{{ image.url }}" />
+					</div>
+					
+				</div>
 			</ion-content>
 			
 		</ion-view>

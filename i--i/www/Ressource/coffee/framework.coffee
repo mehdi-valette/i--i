@@ -170,10 +170,28 @@ class fw
 				coordinates: [ 8.1, 46.83 ]
 			title: "tournoi de poker"
 			description: "Un tournoi de poker entre joueurs"
-			timetables: [{
-				"dates": ["30.01.2015", "01.02.2015"],
+			timetables: [
+				"dates": ["30.01.2015", "01.02.2015"]
 				"times": ["08:00", "15:00"]
-			}]
+				
+				{"dates": ["05.02.2015", "10.02.2015"]
+				"times": ["09:00", "17:00"]}
+			]
+			address:
+				street: "Av. des alpes"
+				streetNbr: "16"
+				npa: "3960"
+				town: "Sierre"
+				country: "CH"
+			images: [
+			    width: 1000
+			    height: 750
+			    url: "https://nslpoker.files.wordpress.com/2011/09/floating-poker-table-action-norris-m.jpg"
+			    {width: 550
+			    height: 414
+			    url: "http://mobword.ru/wp-content/uploads/2011/07/Texas-Hold%E2%80%99em-Inflatable-Pool-Table.jpg"
+			    }
+			]
 			}
 			
 			{

@@ -36,4 +36,23 @@ angularApp.controller "eventDetailController"
 	# --- when user clicks on "close" we go back to map
 	$scope.close = ->
 		fw.goToPage "/map", {}
+		
+	# -- each picture has a width and height that has to be calculated
+	$scope.imageStyle = (image) ->
+		propertyName = ""
+		maxSize = 200
+		width = 0
+		height = 0
+	
+		if image.width > image.height
+			width = maxSize
+			height = Math.round maxSize * (image.height/image.width)
+		else
+			height = maxSize
+			width = Math.round maxSize * (image.width/image.height)
+			
+		{
+		"width": width
+		"height": height
+		}
 ]

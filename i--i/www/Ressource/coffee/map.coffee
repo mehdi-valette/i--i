@@ -83,8 +83,10 @@ angularApp.controller("mapController", [->
 						
 						# - prepare the text for the date
 						textDate = ""
-						for range in event.timetables
+						for range, i in event.timetables
 							do (range) ->
+								if i > 0
+									textDate += ", "
 								for date, j in range.dates
 									if j > 0
 										textDate += ", "

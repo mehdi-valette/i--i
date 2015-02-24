@@ -26,8 +26,26 @@
           return $ionicTabsDelegate.select(1);
         };
       })(this), 100);
-      return $scope.close = function() {
+      $scope.close = function() {
         return fw.goToPage("/map", {});
+      };
+      return $scope.imageStyle = function(image) {
+        var height, maxSize, propertyName, width;
+        propertyName = "";
+        maxSize = 200;
+        width = 0;
+        height = 0;
+        if (image.width > image.height) {
+          width = maxSize;
+          height = Math.round(maxSize * (image.height / image.width));
+        } else {
+          height = maxSize;
+          width = Math.round(maxSize * (image.width / image.height));
+        }
+        return {
+          "width": width,
+          "height": height
+        };
       };
     }
   ]);
