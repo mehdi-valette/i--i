@@ -89,7 +89,10 @@
                 popupLink.href = "#";
                 popupLink.innerHTML = event.title;
                 popupLink.onclick = function() {
-                  return goToDetail(event);
+                  return goToDetail({
+                    "event": event,
+                    "backTo": "/map"
+                  });
                 };
                 popupContent = document.createElement("span");
                 popupContent.innerHTML = textDate + "<br />";

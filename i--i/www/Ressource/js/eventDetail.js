@@ -20,14 +20,14 @@
 
   angularApp.controller("eventDetailController", [
     "$scope", "$timeout", "$ionicTabsDelegate", "eventDetailResolver", function($scope, $timeout, $ionicTabsDelegate, eventDetailResolver) {
-      $scope.event = eventDetailResolver;
+      $scope.event = eventDetailResolver.event;
       $timeout((function(_this) {
         return function() {
           return $ionicTabsDelegate.select(1);
         };
       })(this), 100);
       $scope.close = function() {
-        return fw.goToPage("/map", {});
+        return fw.goToPage(eventDetailResolver.backTo, {});
       };
       return $scope.imageStyle = function(image) {
         var height, maxSize, propertyName, width;

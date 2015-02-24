@@ -27,11 +27,9 @@
 	
 	<!-- template to show the event's details application -->
 	<script type="text/ng-template" id="eventDetail.html">
-		<ion-view>
-			<ion-content data-ng-controller="loadingController" >
-				<ng-include src="getUrl('eventDetailAPP')"></ng-include>
-			</ion-content>
-		</ion-view>
+		<div data-ng-controller="loadingController">
+			<ng-include src="getUrl('eventDetailAPP')"></ng-include>
+		</div>
 	</script>
 	
 	<script src="Ressource/js/framework.js"></script>

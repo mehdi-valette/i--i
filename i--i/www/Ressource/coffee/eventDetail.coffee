@@ -27,7 +27,7 @@ angularApp.controller "eventDetailController"
 , ["$scope", "$timeout", "$ionicTabsDelegate", "eventDetailResolver"
 , ($scope, $timeout, $ionicTabsDelegate, eventDetailResolver) ->
 	
-	$scope.event = eventDetailResolver
+	$scope.event = eventDetailResolver.event
 	
 	$timeout =>
 		$ionicTabsDelegate.select(1)
@@ -35,7 +35,7 @@ angularApp.controller "eventDetailController"
 	
 	# --- when user clicks on "close" we go back to map
 	$scope.close = ->
-		fw.goToPage "/map", {}
+		fw.goToPage eventDetailResolver.backTo, {}
 		
 	# -- each picture has a width and height that has to be calculated
 	$scope.imageStyle = (image) ->

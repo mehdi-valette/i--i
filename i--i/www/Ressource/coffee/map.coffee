@@ -97,7 +97,7 @@ angularApp.controller("mapController", [->
 						popupLink.href = "#"
 						popupLink.innerHTML = event.title
 						popupLink.onclick = ->
-							goToDetail event
+							goToDetail {"event": event, "backTo": "/map"}
 						
 						# - creates the pop up content, with date + link
 						popupContent = document.createElement "span"
