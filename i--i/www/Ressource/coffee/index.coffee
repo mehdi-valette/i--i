@@ -47,6 +47,10 @@ angularApp.config [ "$stateProvider", "$urlRouterProvider", "$controllerProvider
 		url: "/eventDetail"
 		templateUrl: "eventDetail.html"
 		controller: "eventDetailController"
+		resolve:
+			eventDetailResolver: ["eventDetailService", (eventDetailService) ->
+				eventDetailService.loadData()
+			]
 	
 	angularApp._controller = angularApp.controller
 	

@@ -155,10 +155,7 @@ class fw
 			location:
 				type: "Point",
 				coordinates: [ 8.227512, 46.818188 ]
-			titles: [{
-				lang: "fr",
-				text: "compétition de course à pied"
-			}]
+			title: "compétition de course à pied"
 			timetables: [{
 				"dates": ["28.01.2015", "29.01.2015"],
 				"times": ["08:00", "15:00"]
@@ -171,10 +168,8 @@ class fw
 			location:
 				type: "Point",
 				coordinates: [ 8.1, 46.83 ]
-			titles: [{
-				lang: "fr",
-				text: "tournoi de poker"
-			}]
+			title: "tournoi de poker"
+			description: "Un tournoi de poker entre joueurs"
 			timetables: [{
 				"dates": ["30.01.2015", "01.02.2015"],
 				"times": ["08:00", "15:00"]
@@ -187,10 +182,7 @@ class fw
 			location:
 				type: "Point",
 				coordinates: [ 8.0, 46.1 ]
-			titles: [{
-				lang: "fr",
-				text: "marionettes"
-			}]
+			title: "marionettes"
 			timetables: [{
 				"dates": ["29.01.2015", "01.02.2015"],
 				"times": ["08:00", "15:00"]
@@ -202,11 +194,8 @@ class fw
 			type: "amateur"
 			location:
 				type: "Point",
-				coordinates: [ 8.22, 46.1 ]
-			titles: [{
-				lang: "fr",
-				text: "Michael Jackson"
-			}]
+				coordinates: [ 8.0, 46.1 ]
+			title: "Michael Jackson"
 			timetables: [{
 				"dates": ["29.01.2015", "01.02.2015"],
 				"times": ["08:00", "15:00"]
@@ -219,10 +208,7 @@ class fw
 			location:
 				type: "Point",
 				coordinates: [ 8.0, 46.86 ]
-			titles: [{
-				lang: "fr",
-				text: "école de danse \"les danseuses\" - portes ouvertes"
-			}]
+			title: "école de danse \"les danseuses\" - portes ouvertes"
 			timetables: [{
 				"dates": ["29.01.2015", "01.02.2015"],
 				"times": ["08:00", "15:00"]

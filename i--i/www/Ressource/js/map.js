@@ -84,7 +84,7 @@
                 }
                 popupLink = document.createElement("a");
                 popupLink.href = "#";
-                popupLink.innerHTML = event.titles[0].text;
+                popupLink.innerHTML = event.title;
                 popupLink.onclick = function() {
                   return goToDetail(event);
                 };

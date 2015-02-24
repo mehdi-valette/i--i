@@ -1,28 +1,39 @@
 # --- subsribe to "eventDetail" topic and publish its ready state
-angularApp.controller "eventDetailController"
-, ["$scope", "$timeout", "$ionicTabsDelegate", ($scope, $timeout, $ionicTabsDelegate) ->
 
-	$scope.event = "salut !"
-	alert "scope event is " + $scope.event
-
-	# --- method called to bind data and select the second tab
-	$scope.init = (data) ->
+# --- service used to collect event data before the view is generated
+angularApp.service "eventDetailService"
+, [ "$q", ($q) ->
+	loadData: ->
+		$q (resolve, reject) ->
+			
+			# --- called once the subscriber (eventDetail) recieves the information
+			# - from the publisher (map)
+			init = (data) ->
+				# - cancel the handler
+				fw.pubsub.unsubscribe "eventDetail", subHandler
+				
+				# - resolve the data
+				resolve(data)
 		
-		$timeout ->
-			$ionicTabsDelegate.select(1)
+			# - listens on "eventDetail"
+			subHandler = fw.pubsub.subscribe "eventDetail", init, true
+			
+			# - tell the framework the application is ready
+			fw.pubsub.publish "documentReady", "/eventDetail"
+]
 
-			$scope.event = "test"
-			alert "$scope.event = test"
-		, 100
+# --- controller used for the view
+angularApp.controller "eventDetailController"
+, ["$scope", "$timeout", "$ionicTabsDelegate", "eventDetailResolver"
+, ($scope, $timeout, $ionicTabsDelegate, eventDetailResolver) ->
+	
+	$scope.event = eventDetailResolver
+	
+	$timeout =>
+		$ionicTabsDelegate.select(1)
+	, 100
 	
 	# --- when user clicks on "close" we go back to map
 	$scope.close = ->
 		fw.goToPage "/map", {}
-
-	# - listens on "eventDetail"
-	if not fw.pubsub.topicExists "eventDetail"
-		fw.pubsub.subscribe "eventDetail", $scope.init, true
-	
-	# - tell the framework the application is ready
-	fw.pubsub.publish "documentReady", "/eventDetail"
 ]

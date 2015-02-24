@@ -50,7 +50,14 @@
       }).state("eventDetail", {
         url: "/eventDetail",
         templateUrl: "eventDetail.html",
-        controller: "eventDetailController"
+        controller: "eventDetailController",
+        resolve: {
+          eventDetailResolver: [
+            "eventDetailService", function(eventDetailService) {
+              return eventDetailService.loadData();
+            }
+          ]
+        }
       });
       angularApp._controller = angularApp.controller;
       return angularApp.controller = function(name, constructor) {

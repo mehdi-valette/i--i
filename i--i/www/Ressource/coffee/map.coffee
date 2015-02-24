@@ -93,7 +93,7 @@ angularApp.controller("mapController", [->
 						# - creates the link in the popup allowing transition to detailEvent
 						popupLink = document.createElement "a"
 						popupLink.href = "#"
-						popupLink.innerHTML = event.titles[0].text
+						popupLink.innerHTML = event.title
 						popupLink.onclick = ->
 							goToDetail event
 						
