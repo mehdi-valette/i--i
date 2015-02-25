@@ -32,7 +32,7 @@
       return $scope.imageStyle = function(image) {
         var height, maxSize, propertyName, width;
         propertyName = "";
-        maxSize = 200;
+        maxSize = 380;
         width = 0;
         height = 0;
         if (image.width > image.height) {

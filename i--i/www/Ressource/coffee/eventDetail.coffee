@@ -40,7 +40,7 @@ angularApp.controller "eventDetailController"
 	# -- each picture has a width and height that has to be calculated
 	$scope.imageStyle = (image) ->
 		propertyName = ""
-		maxSize = 200
+		maxSize = 380
 		width = 0
 		height = 0
 	
