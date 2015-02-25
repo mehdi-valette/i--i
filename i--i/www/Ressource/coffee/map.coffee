@@ -58,10 +58,6 @@ angularApp.controller("mapController", [->
 	# --- call the geolocalisation system and call "showMap" with a LatLng object
 	navigator.geolocation.getCurrentPosition (pos) ->
 		showMap new L.LatLng pos.coords.latitude, pos.coords.longitude
-		
-	# --- open the "eventDetail" page
-	goToDetail = (event) ->
-		fw.goToPage "/eventDetail", event
 	
 	# --- requests events information and display them on the map
 	filterEvents = (events) ->
@@ -97,7 +93,7 @@ angularApp.controller("mapController", [->
 						popupLink.href = "#"
 						popupLink.innerHTML = event.title
 						popupLink.onclick = ->
-							goToDetail {"event": event, "backTo": "/map"}
+							fw.goToPage "/eventDetail", {"event": event, "backTo": "/map"}
 						
 						# - creates the pop up content, with date + link
 						popupContent = document.createElement "span"

@@ -2,7 +2,7 @@
 (function() {
   angularApp.controller("mapController", [
     function() {
-      var eventIcon, eventLayer, events, filterEvents, getIcon, goToDetail, map, showMap, tiles, userIcon;
+      var eventIcon, eventLayer, events, filterEvents, getIcon, map, showMap, tiles, userIcon;
       events = [];
       tiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -45,9 +45,6 @@
       navigator.geolocation.getCurrentPosition(function(pos) {
         return showMap(new L.LatLng(pos.coords.latitude, pos.coords.longitude));
       });
-      goToDetail = function(event) {
-        return fw.goToPage("/eventDetail", event);
-      };
       filterEvents = function(events) {
         return fw.requestServer({
           app: "map",
@@ -89,7 +86,7 @@
                 popupLink.href = "#";
                 popupLink.innerHTML = event.title;
                 popupLink.onclick = function() {
-                  return goToDetail({
+                  return fw.goToPage("/eventDetail", {
                     "event": event,
                     "backTo": "/map"
                   });

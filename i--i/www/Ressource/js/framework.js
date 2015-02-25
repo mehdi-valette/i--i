@@ -109,12 +109,14 @@
       "other_amateurIMG": fw.baseUrl + "Ressource/img/other_amateur.png",
       "mapAPP": fw.baseUrl + "App/Map/View/map.html",
       "eventDetailAPP": fw.baseUrl + "App/EventDetail/View/eventDetail.html",
+      "imageViewerAPP": fw.baseUrl + "App/ImageViewer/View/imageViewer.html",
+      "eventDetailCSS": fw.baseUrl + "Ressource/css/eventDetail.css",
+      "imageViewerCSS": fw.baseUrl + "Ressource/css/imageViewer.css",
       "indexCSS": fw.baseUrl + "Ressource/css/index.css",
       "ionicCSS": fw.baseUrl + "Library/ionic.css",
       "leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css",
       "mapCSS": fw.baseUrl + "Ressource/css/map.css",
       "markerClusterCSS": fw.baseUrl + "Library/markerCluster.css",
-      "eventDetailCSS": fw.baseUrl + "Ressource/css/eventDetail.css",
       "angularJS": fw.baseUrl + "Library/angular.js",
       "angularLeafletDirectiveJS": fw.baseUrl + "Library/angular-leaflet-directive.js",
       "angularUIAnimateJS": fw.baseUrl + "Library/angular-ui-animate.js",
@@ -123,6 +125,7 @@
       "angularResourceJS": fw.baseUrl + "Library/angular-resource.js",
       "angularSanitizeJS": fw.baseUrl + "Library/angular-sanitize.js",
       "eventDetailJS": fw.baseUrl + "Ressource/js/eventDetail.js",
+      "imageViewerJS": fw.baseUrl + "Ressource/js/imageViewer.js",
       "indexJS": fw.baseUrl + "Ressource/js/index.js",
       "ionicJS": fw.baseUrl + "Library/ionic.js",
       "ionicAngularJS": fw.baseUrl + "Library/ionic-angular.js",
@@ -333,28 +336,23 @@
       return $timeout(function() {
         var la, wl;
         $location.url(uri);
-        switch (uri) {
-          case "/eventDetail":
-            wl = window.fw.waitingList;
-            la = window.fw.loadedApp;
-
-            /*
-            					 * - if the page is already loaded, just publish the parameters
-            					if la[uri] is true
-            						window.fw.pubsub.publish "eventDetail", params
-            						return
-             */
-            try {
-              return wl[uri].push(function() {
-                return window.fw.pubsub.publish("eventDetail", params);
-              });
-            } catch (_error) {
-              wl[uri] = [];
-              return wl[uri].push(function() {
-                return window.fw.pubsub.publish("eventDetail", params);
-              });
-            }
+        wl = window.fw.waitingList;
+        la = window.fw.loadedApp;
+        try {
+          return wl[uri].push(function() {
+            return window.fw.pubsub.publish(uri, params);
+          });
+        } catch (_error) {
+          wl[uri] = [];
+          return wl[uri].push(function() {
+            return window.fw.pubsub.publish(uri, params);
+          });
         }
+
+        /*
+        			switch uri
+        				when "/eventDetail"
+         */
       }, 1);
     };
 

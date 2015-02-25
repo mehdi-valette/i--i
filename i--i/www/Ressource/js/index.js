@@ -58,6 +58,17 @@
             }
           ]
         }
+      }).state("imageViewer", {
+        url: "/imageViewer",
+        templateUrl: "imageViewer.html",
+        controller: "imageViewerController",
+        resolve: {
+          imageViewerResolver: [
+            "imageViewerService", function(imageViewerService) {
+              return imageViewerService.loadData();
+            }
+          ]
+        }
       });
       angularApp._controller = angularApp.controller;
       return angularApp.controller = function(name, constructor) {

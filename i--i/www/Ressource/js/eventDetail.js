@@ -7,10 +7,10 @@
           return $q(function(resolve, reject) {
             var init, subHandler;
             init = function(data) {
-              fw.pubsub.unsubscribe("eventDetail", subHandler);
+              fw.pubsub.unsubscribe("/eventDetail", subHandler);
               return resolve(data);
             };
-            subHandler = fw.pubsub.subscribe("eventDetail", init, true);
+            subHandler = fw.pubsub.subscribe("/eventDetail", init, true);
             return fw.pubsub.publish("documentReady", "/eventDetail");
           });
         }
@@ -29,9 +29,8 @@
       $scope.close = function() {
         return fw.goToPage(eventDetailResolver.backTo, {});
       };
-      return $scope.imageStyle = function(image) {
-        var height, maxSize, propertyName, width;
-        propertyName = "";
+      $scope.imageStyle = function(image) {
+        var height, maxSize, width;
         maxSize = 380;
         width = 0;
         height = 0;
@@ -46,6 +45,15 @@
           "width": width,
           "height": height
         };
+      };
+      return $scope.showImage = function(index) {
+        var images;
+        images = $scope.event.images;
+        return fw.goToPage("/imageViewer", {
+          "images": images,
+          "index": index,
+          "backTo": "/eventDetail"
+        });
       };
     }
   ]);

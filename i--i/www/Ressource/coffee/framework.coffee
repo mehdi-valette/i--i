@@ -30,14 +30,16 @@ class fw
 		# - apps
 		"mapAPP": @baseUrl + "App/Map/View/map.html"
 		"eventDetailAPP": @baseUrl + "App/EventDetail/View/eventDetail.html"
+		"imageViewerAPP": @baseUrl + "App/ImageViewer/View/imageViewer.html"
 		
 		# - CSS
+		"eventDetailCSS": @baseUrl + "Ressource/css/eventDetail.css"
+		"imageViewerCSS": @baseUrl + "Ressource/css/imageViewer.css"
 		"indexCSS": @baseUrl + "Ressource/css/index.css"
 		"ionicCSS": @baseUrl + "Library/ionic.css"
 		"leafletCSS": "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"
 		"mapCSS": @baseUrl + "Ressource/css/map.css"
 		"markerClusterCSS": @baseUrl + "Library/markerCluster.css"
-		"eventDetailCSS": @baseUrl + "Ressource/css/eventDetail.css"
 		
 		# - JS
 		"angularJS": @baseUrl + "Library/angular.js"
@@ -48,6 +50,7 @@ class fw
 		"angularResourceJS": @baseUrl + "Library/angular-resource.js"
 		"angularSanitizeJS": @baseUrl + "Library/angular-sanitize.js"
 		"eventDetailJS": @baseUrl + "Ressource/js/eventDetail.js"
+		"imageViewerJS": @baseUrl + "Ressource/js/imageViewer.js"
 		"indexJS": @baseUrl + "Ressource/js/index.js"
 		"ionicJS": @baseUrl + "Library/ionic.js"
 		"ionicAngularJS": @baseUrl + "Library/ionic-angular.js"
@@ -246,27 +249,26 @@ class fw
 			# - change the page
 			$location.url uri
 			
+			
+
+			wl = window.fw.waitingList
+			la = window.fw.loadedApp
+			
+			# - if the page is not loaded, add the publication to the waiting list
+			try
+				wl[uri].push ->
+					window.fw.pubsub.publish uri, params
+			catch
+				wl[uri] = []
+				wl[uri].push ->
+					window.fw.pubsub.publish uri, params
+					
+			
 			# - depending on the uri, execute some functions
+			###
 			switch uri
 				when "/eventDetail"
-					wl = window.fw.waitingList
-					la = window.fw.loadedApp
-					
-					###
-					# - if the page is already loaded, just publish the parameters
-					if la[uri] is true
-						window.fw.pubsub.publish "eventDetail", params
-						return
-					###
-					
-					# - if the page is not loaded, add the publication to the waiting list
-					try
-						wl[uri].push ->
-							window.fw.pubsub.publish "eventDetail", params
-					catch
-						wl[uri] = []
-						wl[uri].push ->
-							window.fw.pubsub.publish "eventDetail", params
+			###
 		, 1
 	
 	# --- called when an event was waiting for a page to download

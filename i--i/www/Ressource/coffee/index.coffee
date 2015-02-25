@@ -51,6 +51,14 @@ angularApp.config [ "$stateProvider", "$urlRouterProvider", "$controllerProvider
 			eventDetailResolver: ["eventDetailService", (eventDetailService) ->
 				eventDetailService.loadData()
 			]
+	.state "imageViewer",
+		url: "/imageViewer"
+		templateUrl: "imageViewer.html"
+		controller: "imageViewerController"
+		resolve:
+			imageViewerResolver: ["imageViewerService", (imageViewerService) ->
+				imageViewerService.loadData()
+			]
 	
 	angularApp._controller = angularApp.controller
 	

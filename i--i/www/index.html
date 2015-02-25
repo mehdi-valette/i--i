@@ -32,17 +32,22 @@
 		</div>
 	</script>
 	
+	<!-- template to show images full screen -->
+	<script type="text/ng-template" id="imageViewer.html">
+		<div data-ng-controller="loadingController">
+			<ng-include src="getUrl('imageViewerAPP')"></ng-include>
+		</div>
+	</script>
+	
 	<script src="Ressource/js/framework.js"></script>
 	<script type="text/javascript">
 		fw.getJsCss( [
-		              "ionicCSS", "indexCSS", "ionicJS", "leafletCSS", "markerClusterCSS", "mapCSS"
-		              , "eventDetailCSS"
+		              "ionicCSS", "indexCSS", "ionicJS", "leafletCSS", "markerClusterCSS"
+		              , "mapCSS", "eventDetailCSS", "imageViewerCSS"
 		              , "angularJS", "angularRouteJS", "angularUIRouterJS", "ionicAngularJS"
 		              , "angularUIAnimateJS", "angularResourceJS", "angularSanitizeJS"
 		              , "leafletJS", "markerClusterJS"
-		              , "indexJS"
-		              , "mapJS"
-		              , "eventDetailJS"
+		              , "indexJS" , "mapJS", "eventDetailJS", "imageViewerJS"
 		              ], document, function(){} );
 	</script>
 </body>

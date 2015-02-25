@@ -1,0 +1,15 @@
+
+// launch ionic server
+
+cd C:\Users\AboveUsOnlySky\Desktop\projets web\i--i.ch\website\git\i--i
+
+ionic serve
+
+
+// compile *.coffee files
+
+cd C:\Users\AboveUsOnlySky\Desktop\projets web\i--i.ch\website\git\i--i\www\Ressource\coffee
+
+cat pubsub.coffee framework.coffee | coffee --compile --stdio > ../js/framework.js
+
+coffee -c aaaaaa.coffee

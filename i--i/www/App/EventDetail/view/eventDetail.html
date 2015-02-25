@@ -143,10 +143,9 @@ class="tabs-top tabs-background-positive tabs-color-light" animation="slide-left
 			
 			<ion-content>
 				<div class="content">
-					<div class="image-container" data-ng-repeat="image in event.images" >
+					<div class="image-container" data-ng-repeat="image in event.images" data-ng-click="showImage($index)" >
 						<img data-ng-style="imageStyle(image)" data-ng-src="{{ image.url }}" />
 					</div>
-					
 				</div>
 			</ion-content>
 			

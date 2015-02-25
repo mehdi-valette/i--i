@@ -10,13 +10,13 @@ angularApp.service "eventDetailService"
 			# - from the publisher (map)
 			init = (data) ->
 				# - cancel the handler
-				fw.pubsub.unsubscribe "eventDetail", subHandler
+				fw.pubsub.unsubscribe "/eventDetail", subHandler
 				
 				# - resolve the data
 				resolve(data)
 		
-			# - listens on "eventDetail"
-			subHandler = fw.pubsub.subscribe "eventDetail", init, true
+			# - listens on "/eventDetail"
+			subHandler = fw.pubsub.subscribe "/eventDetail", init, true
 			
 			# - tell the framework the application is ready
 			fw.pubsub.publish "documentReady", "/eventDetail"
@@ -37,9 +37,8 @@ angularApp.controller "eventDetailController"
 	$scope.close = ->
 		fw.goToPage eventDetailResolver.backTo, {}
 		
-	# -- each picture has a width and height that has to be calculated
+	# --- each image has a width and height that has to be calculated
 	$scope.imageStyle = (image) ->
-		propertyName = ""
 		maxSize = 380
 		width = 0
 		height = 0
@@ -55,4 +54,10 @@ angularApp.controller "eventDetailController"
 		"width": width
 		"height": height
 		}
+		
+	# --- goes to imageViewer opening at the clicked image
+	$scope.showImage = (index) ->
+		images = $scope.event.images
+
+		fw.goToPage "/imageViewer", {"images": images, "index": index, "backTo": "/eventDetail"}
 ]
