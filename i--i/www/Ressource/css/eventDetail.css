@@ -89,6 +89,13 @@
   background-image: url('css-images/eventDetail/information-off.png');
 }
 
+
+.tabs .tab-item .icon.valezy-icon-information-off:hover {
+	background-image: url("css-images/eventDetail/information-on.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 .tabs .tab-item .icon.valezy-icon-description-on {
   background-repeat: no-repeat;
   background-position: 50%;

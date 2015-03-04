@@ -7,7 +7,7 @@ app.use (req, res) ->
 io = require("socket.io").listen(server);
 
 io.sockets.on "connection", (socket) ->
-	socket.emit "message", "Vous êtes connecté !"
+	socket.emit "message", "Vous Ãªtes connectÃ© !"
 	
 	socket.on "message", (message) ->
 		console.log "received a message"
